@@ -49,7 +49,7 @@
 import { ref, computed, onMounted } from 'vue'
 import ExerciseCard from '../components/ExerciseCard.vue'
 import ExerciseModal from '../components/ExerciseModal.vue'
-import { getExercises } from '../services/exerciseApi'
+import { getExercises } from '../services/exerciseApi.js'
 
 const allExercises = ref([])
 const searchQuery = ref('')

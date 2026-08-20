@@ -167,8 +167,6 @@ function closeExerciseModal() {
 .top-nav-bar {
   display: flex;
   align-items: center;
-  background-color: #111827;
-  border-bottom: 2px solid #374151;
   padding: 0 16px;
   overflow-x: auto;
   width: 100%;
