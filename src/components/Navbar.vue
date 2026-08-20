@@ -181,6 +181,7 @@ onMounted(() => {
   position: sticky;
   top: 0;
   z-index: 100;
+  background-color: var(--color-navbar-bg);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-border);
 }
