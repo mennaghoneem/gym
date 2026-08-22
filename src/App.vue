@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-// import BMIModal from './components/BMIModal.vue'
+import BMIModal from './components/BMIModel.vue'
 
 const showBMI = ref(false)
 
@@ -16,10 +16,10 @@ function closeBMI() {
 <template>
   <div id="app">
     <RouterView @open-bmi="openBMI" />
-    <!-- <BMIModal
+    <BMIModal
       v-if="showBMI"
       @close="closeBMI"
-    /> -->
+    />
   </div>
 </template>
 

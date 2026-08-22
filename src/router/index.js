@@ -7,6 +7,8 @@ import DietPlans from '../views/DietPlans.vue'
 import About from '../components/About.vue'
 import Contact from '../components/contact.vue'
 import Trainers from '../components/Trainers.vue'
+import Schedule from '../components/schedule.vue'
+
 
 const routes = [
   {
@@ -49,6 +51,12 @@ const routes = [
     name: 'trainers',
     component: Trainers
   },
+  {
+    path: '/schedule',
+    name: 'schedule',
+    component: Schedule
+  },
+  
 ]
 
 const router = createRouter({

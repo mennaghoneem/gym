@@ -29,7 +29,7 @@ onMounted(() => {
       <nav class="nav-side nav-left d-none d-lg-flex">
         <a href="#home" class="site-link site-link--active">Home</a>
         <RouterLink to="/trainers" class="site-link">Trainers</RouterLink>
-        <a href="#schedule" class="site-link">Schedule</a>
+        <RouterLink to="/schedule" class="site-link">Schedule</RouterLink>
       </nav>
 
       <!-- Center Logo -->
@@ -169,7 +169,7 @@ onMounted(() => {
         <a href="#home" class="site-link" @click="isMobileMenuOpen = false">Home</a>
         <RouterLink to="/trainers" class="site-link" @click="isMobileMenuOpen = false">Trainers</RouterLink>
 
-        <a href="#schedule" class="site-link" @click="isMobileMenuOpen = false">Schedule</a>
+        <RouterLink to="/schedule" class="site-link" @click="isMobileMenuOpen = false">Schedule</RouterLink>
         <RouterLink to="/about" class="site-link" @click="isMobileMenuOpen = false">About</RouterLink>
         <RouterLink to="/contact" class="site-link" @click="isMobileMenuOpen = false">Contact</RouterLink>
       </div>

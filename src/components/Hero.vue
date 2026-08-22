@@ -46,8 +46,8 @@ onUnmounted(() => {
         </p>
 
         <div class="d-flex gap-3 align-items-center hero__actions">
-          <a href="#plans" class="btn btn-primary hero-btn glow-btn">JOIN NOW</a>
-          <a href="#plans" class="btn btn-outline-primary hero-btn outline-glow">EXPLORE PLANS</a>
+          <RouterLink to="/plans" class="btn btn-primary hero-btn glow-btn">JOIN NOW</RouterLink>
+          <RouterLink to="/exercises-main" class="btn btn-outline-primary hero-btn outline-glow">EXPLORE EXERCISES</RouterLink>
         </div>
       </div>
     </div>

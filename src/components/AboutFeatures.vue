@@ -9,9 +9,9 @@
           <p class="about-desc">
             We provide top quality equipment, expert trainers and a motivating environment to help you reach your full potential.
           </p>
-          <a href="#about" class="learn-more-link">
+          <RouterLink to="/about" class="learn-more-link">
             LEARN MORE <span class="arrow">→</span>
-          </a>
+          </RouterLink>
         </div>
 
         <!-- Features Icons Section -->

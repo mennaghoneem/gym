@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import Navbar from '../components/Navbar.vue'
 import Hero from '../components/Hero.vue'
 import AboutFeatures from '../components/AboutFeatures.vue'
+import BMIModal from '../components/BMIModel.vue'
 
 const isBmiOpen = ref(false)
 </script>
@@ -27,7 +28,7 @@ const isBmiOpen = ref(false)
     <AboutFeatures id="about" />
 
     <div v-if="isBmiOpen" class="bmi-placeholder-note">
-      <!-- BMI modal placeholder — ندى هتضيف الـ component الحقيقي هنا -->
+      <BMIModal />
     </div>
   </div>
 </template>
