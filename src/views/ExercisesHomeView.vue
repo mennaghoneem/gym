@@ -1,7 +1,7 @@
 <template>
   <div class="home-page">
     <div class="hero-section">
-      <h1 class="hero-title">Welcome to the Exercises Page</h1>
+      <h1 class="hero-title">DISCOVER YOUR WORKOUT</h1>
 
       <div class="search-container">
         <input
@@ -105,7 +105,7 @@ function closeModal() {
 .home-page {
   min-height: 100vh;
   width: 100vw;
-  background-color: #0d1b2a;
+  background-color: var(--color-bg);
   color: #ffffff;
   padding: 50px 20px;
   box-sizing: border-box;
@@ -140,15 +140,15 @@ function closeModal() {
   max-width: 500px;
   padding: 14px 24px;
   border-radius: 30px;
-  border: 1px solid #374151;
-  background-color: #111827;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
   color: #ffffff;
   font-size: 1rem;
   outline: none;
 }
 
 .search-input:focus {
-  border-color: #38bdf8;
+  border-color: var(--color-primary-light);
 }
 
 .exercises-grid {
@@ -166,7 +166,7 @@ function closeModal() {
 .view-all-btn {
   display: inline-block;
   background-color: #ffffff;
-  color: #0d1b2a;
+  color: var(--color-bg);
   padding: 12px 36px;
   border-radius: 25px;
   font-weight: 800;

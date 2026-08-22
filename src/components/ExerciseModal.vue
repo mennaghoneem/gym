@@ -1,217 +1,274 @@
 <template>
-  <Teleport to="body">
-    <div v-if="exercise" class="modal-overlay" @click.self="close">
+  <Transition name="modal-fade" appear>
+    <div class="modal-backdrop" @click.self="$emit('close')">
       <div class="modal-card">
-        <button class="close-btn" @click="close">&times;</button>
+        <button class="close-btn" @click="$emit('close')" title="Close">✕</button>
 
         <div class="modal-body">
-          <div class="image-wrapper">
+          <div class="image-container">
             <img 
-              :src="currentImageSrc" 
+              :src="exercise.gifUrl || exercise.image || 'https://via.placeholder.com/400x300?text=No+Preview'" 
               :alt="exercise.name" 
-              @error="handleImageError"
             />
           </div>
 
-          <div class="modal-info">
-            <h2>{{ exercise.name }}</h2>
-
-            <div class="badges">
-              <span class="badge target" v-if="exercise.target">{{ exercise.target }}</span>
-              <span class="badge body-part" v-for="part in exercise.bodyParts" :key="part">
-                {{ part }}
+          <div class="exercise-info">
+            <h2 class="title">{{ exercise.name }}</h2>
+            
+            <div class="tags-container">
+              <span class="tag primary-tag" v-if="exercise.target || exercise.category">
+                {{ exercise.target || exercise.category }}
               </span>
-              <span class="badge equipment" v-if="exercise.equipment">{{ exercise.equipment }}</span>
+              <span class="tag secondary-tag" v-if="exercise.equipment">
+                {{ exercise.equipment }}
+              </span>
             </div>
+          </div>
 
-            <div class="instructions" v-if="exercise.instructions && exercise.instructions.length">
-              <h3>Instructions</h3>
-              <ol>
-                <li v-for="(step, index) in exercise.instructions" :key="index">
-                  {{ step }}
-                </li>
-              </ol>
-            </div>
+          <!-- Instructions Section with Staggered Steps -->
+          <div class="instructions-section" v-if="formattedInstructions.length">
+            <h3 class="section-title">How to Perform</h3>
+            <ol class="steps-list">
+              <li 
+                v-for="(step, index) in formattedInstructions" 
+                :key="index" 
+                class="step-item"
+                :style="{ animationDelay: `${0.1 + index * 0.08}s` }"
+              >
+                <span class="step-number">{{ index + 1 }}</span>
+                <p class="step-text">{{ step }}</p>
+              </li>
+            </ol>
           </div>
         </div>
       </div>
     </div>
-  </Teleport>
+  </Transition>
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
   exercise: {
     type: Object,
-    default: null
+    required: true
   }
 })
 
-const emit = defineEmits(['close'])
+defineEmits(['close'])
 
-const svgPlaceholder = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%"><rect width="400" height="300" fill="%230f172a"/><g fill="%233b82f6" opacity="0.85"><path d="M120 150 a20 20 0 1 0 0.1 0 Z"/><path d="M280 150 a20 20 0 1 0 0.1 0 Z"/><rect x="140" y="142" width="120" height="16" rx="8"/><rect x="105" y="120" width="18" height="60" rx="4" fill="%23ff3333"/><rect x="277" y="120" width="18" height="60" rx="4" fill="%23ff3333"/><rect x="90" y="130" width="12" height="40" rx="3" fill="%23e2e8f0"/><rect x="298" y="130" width="12" height="40" rx="3" fill="%23e2e8f0"/></g><text x="200" y="230" fill="%2394a3b8" font-family="sans-serif" font-size="16" font-weight="600" text-anchor="middle">WORKOUT EXERCISE</text></svg>`
-
-const imageState = ref(0)
-
-const rawUrl = computed(() => {
-  if (!props.exercise) return ''
-  return props.exercise.gifUrl || props.exercise.imageUrl || ''
-})
-
-watch(() => props.exercise, () => {
-  imageState.value = 0
-}, { immediate: true })
-
-const currentImageSrc = computed(() => {
-  if (!rawUrl.value) return svgPlaceholder
-
-  if (imageState.value === 0) {
-    return rawUrl.value
-  } else if (imageState.value === 1) {
-    return `https://images.weserv.nl/?url=${encodeURIComponent(rawUrl.value)}`
+const formattedInstructions = computed(() => {
+  if (Array.isArray(props.exercise.instructions)) {
+    return props.exercise.instructions
   }
-  
-  return svgPlaceholder
-})
-
-function handleImageError() {
-  if (imageState.value < 2) {
-    imageState.value++
+  if (typeof props.exercise.instructions === 'string') {
+    return props.exercise.instructions.split('.').filter(s => s.trim().length > 0)
   }
-}
-
-function close() {
-  emit('close')
-}
-
-function handleKeydown(e) {
-  if (e.key === 'Escape') close()
-}
-
-onMounted(() => window.addEventListener('keydown', handleKeydown))
-onUnmounted(() => window.removeEventListener('keydown', handleKeydown))
+  return []
+})
 </script>
 
 <style scoped>
-.modal-overlay {
+/* Modal Backdrop Fade Animation */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
+/* Modal Card Scale/Slide Animation */
+.modal-fade-enter-active .modal-card {
+  animation: modalPopIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-fade-leave-active .modal-card {
+  animation: modalPopOut 0.25s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(5, 10, 20, 0.85);
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 9999;
+  justify-content: center;
+  z-index: 2000;
   padding: 20px;
-  backdrop-filter: blur(4px);
 }
 
 .modal-card {
-  background-color: #1e293b;
-  color: #ffffff;
-  border-radius: 16px;
-  max-width: 700px;
+  background-color: var(--color-surface, #111827);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.12));
+  border-radius: 24px;
+  max-width: 540px;
   width: 100%;
   max-height: 85vh;
-  overflow-y: auto;
   position: relative;
-  padding: 30px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-  border: 1px solid #334155;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
 }
 
 .close-btn {
   position: absolute;
-  top: 15px;
-  right: 20px;
-  background: transparent;
-  border: none;
+  top: 16px;
+  right: 16px;
+  background: rgba(0, 0, 0, 0.6);
   color: #ffffff;
-  font-size: 32px;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   cursor: pointer;
-  line-height: 1;
-  transition: color 0.2s ease;
+  z-index: 10;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .close-btn:hover {
-  color: #ff3333;
+  background: var(--color-primary-light, #ff2d75);
+  transform: rotate(90deg);
 }
 
 .modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  overflow-y: auto;
+  padding: 24px;
 }
 
-.image-wrapper {
-  text-align: center;
-  background: #0f172a;
-  border-radius: 12px;
-  padding: 15px;
+/* Custom Smooth Scrollbar */
+.modal-body::-webkit-scrollbar {
+  width: 5px;
+}
+.modal-body::-webkit-scrollbar-thumb {
+  background: var(--color-border, rgba(255, 255, 255, 0.2));
+  border-radius: 10px;
 }
 
-.image-wrapper img {
-  max-width: 100%;
-  max-height: 280px;
-  object-fit: contain;
-  border-radius: 8px;
-}
-
-.modal-info h2 {
-  margin: 0 0 15px 0;
-  font-size: 28px;
-  text-transform: capitalize;
-  color: #ffffff;
-}
-
-.badges {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.image-container {
+  width: 100%;
+  height: 230px;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #000;
   margin-bottom: 20px;
 }
 
-.badge {
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.modal-card:hover .image-container img {
+  transform: scale(1.03);
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-text, #ffffff);
+  margin: 0 0 12px 0;
+  text-transform: capitalize;
+}
+
+.tags-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.tag {
   padding: 6px 14px;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 0.85rem;
   font-weight: 600;
   text-transform: capitalize;
 }
 
-.badge.target {
-  background: #ff3333;
+.primary-tag {
+  background-color: var(--color-primary-light, #0066ff);
   color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.badge.body-part {
-  background: #3b82f6;
-  color: #ffffff;
+.secondary-tag {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-muted, #9ca3af);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
 }
 
-.badge.equipment {
-  background: #475569;
-  color: #ffffff;
+.section-title {
+  font-size: 1.1rem;
+  color: var(--color-text, #ffffff);
+  margin-bottom: 14px;
+  font-weight: 700;
 }
 
-.instructions h3 {
-  margin-bottom: 10px;
-  color: #ffffff;
-  font-size: 18px;
-}
-
-.instructions ol {
-  padding-left: 20px;
+.steps-list {
+  list-style: none;
+  padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.instructions li {
-  margin-bottom: 10px;
-  line-height: 1.6;
-  color: #e2e8f0;
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 12px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.08));
+  opacity: 0;
+  animation: slideInStep 0.4s ease forwards;
+}
+
+@keyframes slideInStep {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.step-number {
+  background-color: var(--color-primary-light, #0066ff);
+  color: #ffffff;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.step-text {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--color-text-muted, #d1d5db);
+  line-height: 1.5;
 }
 </style>

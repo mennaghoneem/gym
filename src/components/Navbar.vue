@@ -24,16 +24,14 @@ onMounted(() => {
 <template>
   <header class="navbar-wrap">
     <div class="container navbar-inner d-flex align-items-center justify-content-between">
-      
-      <!-- Left side Links (تغيير Plans لـ Trainers) -->
-      <nav class="nav-side nav-left d-none d-lg-flex">
-        <a href="#home" class="site-link site-link--active">Home</a>
+            <nav class="nav-side nav-left d-none d-lg-flex">
+        <RouterLink to="/" class="site-link site-link--active">Home</RouterLink>
         <RouterLink to="/trainers" class="site-link">Trainers</RouterLink>
         <RouterLink to="/schedule" class="site-link">Schedule</RouterLink>
       </nav>
 
       <!-- Center Logo -->
-      <a href="#home" class="navbar-brand d-flex align-items-center justify-content-center gap-2 text-decoration-none">
+      <a href="/" class="navbar-brand d-flex align-items-center justify-content-center gap-2 text-decoration-none">
         <span class="logo-bars" aria-hidden="true">|||</span>
         <span class="d-flex flex-column align-items-center lh-1">
           <strong class="display-font fs-4 text-white">GYM</strong>

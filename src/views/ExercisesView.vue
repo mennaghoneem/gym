@@ -39,7 +39,7 @@
     ></div>
 
     <div class="main-content">
-      <h1 class="page-title">Work Out & Live a Healthy Life</h1>
+      <h1 class="page-title">EXPLORE EXERCISES</h1>
 
       <div v-if="loading" class="loading-state">
         Loading exercises...
@@ -158,8 +158,8 @@ function closeExerciseModal() {
 .exercises-page {
   min-height: 100vh;
   width: 100vw;
-  background-color: #0d1b2a;
-  color: #f8fafc;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   position: relative;
   box-sizing: border-box;
 }
@@ -174,7 +174,7 @@ function closeExerciseModal() {
 
 .menu-btn {
   background: transparent;
-  color: #38bdf8;
+  color: var(--color-primary-light);
   border: none;
   font-size: 1.8rem;
   padding: 12px 18px;
@@ -187,8 +187,8 @@ function closeExerciseModal() {
   left: -300px;
   width: 280px;
   height: 100vh;
-  background-color: #111827;
-  border-right: 2px solid #374151;
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-border);
   box-shadow: 5px 0 25px rgba(0, 0, 0, 0.6);
   z-index: 1000;
   transition: left 0.3s ease;
@@ -205,20 +205,20 @@ function closeExerciseModal() {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #1f2937;
-  border-bottom: 1px solid #374151;
+  background-color: rgba(255,255,255, .03);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .sidebar-header h3 {
   margin: 0;
-  color: #f3f4f6;
+  color: var(--color-text);
   font-size: 0.95rem;
   font-style: italic;
 }
 
 .sidebar-item {
   background: transparent;
-  color: #d1d5db;
+  color: var(--color-text-muted);
   border: none;
   text-align: left;
   padding: 8px 14px;
@@ -231,7 +231,7 @@ function closeExerciseModal() {
 .close-btn {
   background: transparent;
   border: none;
-  color: #9ca3af;
+  color: var(--color-text-muted);
   font-size: 1.4rem;
   cursor: pointer;
 }
@@ -245,7 +245,7 @@ function closeExerciseModal() {
 
 .sidebar-item {
   background: transparent;
-  color: #d1d5db;
+  color: var(--color-text-muted);
   border: none;
   text-align: left;
   padding: 14px 24px;
@@ -257,14 +257,14 @@ function closeExerciseModal() {
 }
 
 .sidebar-item:hover {
-  background-color: #374151;
-  color: #38bdf8;
+  background-color: var(--color-border);
+  color: var(--color-primary-light);
 }
 
 .selected-item {
-  background-color: #1f2937;
-  color: #38bdf8;
-  border-left: 4px solid #38bdf8;
+  background-color: rgba(255,255,255,0.08);
+  color: var(--color-primary-light);
+  border-left: 4px solid var(--color-primary-light);
 }
 
 .sidebar-overlay {
@@ -286,7 +286,7 @@ function closeExerciseModal() {
 .page-title {
   font-size: 2.8rem;
   font-weight: 800;
-  color: #ffffff !important;
+  color: var(--color-primary-light) !important;
   text-align: center;
   margin-bottom: 40px;
   letter-spacing: 0.5px;
@@ -298,7 +298,7 @@ function closeExerciseModal() {
   text-align: center;
   padding: 40px;
   font-size: 1.1rem;
-  color: #9ca3af;
+  color: var(--color-text-muted);
 }
 
 .exercises-grid {

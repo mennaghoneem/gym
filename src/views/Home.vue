@@ -10,7 +10,6 @@ const isBmiOpen = ref(false)
 
 <template>
   <div class="page">
-    <Navbar @open-bmi="isBmiOpen = true" />
     <Hero />
     <!-- Marquee Section -->
     <div class="marquee-wrapper">

@@ -1,315 +1,239 @@
-<template>
-  <section class="trainers">
-    <div class="container">
-
-      <div class="heading">
-        <span>OUR TEAM</span>
-        <h1>Meet Our Trainers</h1>
-        <p>Professional trainers ready to help you reach your goals.</p>
-      </div>
-
-      <div class="trainers-grid">
-
-        <div class="trainer-card" v-for="trainer in trainers" :key="trainer.id">
-
-          <div class="trainer-image">
-            <img :src="trainer.image" :alt="trainer.name">
-          </div>
-
-          <div class="trainer-info">
-            <h2>{{ trainer.name }}</h2>
-            <h3>{{ trainer.specialty }}</h3>
-            <p>{{ trainer.experience }} Years Experience</p>
-            <p class="description">{{ trainer.description }}</p>
-
-            <button @click="showTrainer(trainer)">View Profile</button>
-          </div>
-
-        </div>
-
-      </div>
-      <div v-if="selectedTrainer" class="profile">
-  <img :src="selectedTrainer.image" :alt="selectedTrainer.name">
-
-  <h2>{{ selectedTrainer.name }}</h2>
-  <h3>{{ selectedTrainer.specialty }}</h3>
-  <p>{{ selectedTrainer.experience }} Years Experience</p>
-  <p>{{ selectedTrainer.description }}</p>
-
-  <button @click="selectedTrainer = null">Close</button>
-</div>
-
-    </div>
-  </section>
-</template>
-
-<script>
+<script setup>
 import trainer1 from '../assets/trainer1.jpeg'
 import trainer2 from '../assets/trainer2.jpeg'
 import trainer3 from '../assets/trainer3.jpeg'
 import trainer4 from '../assets/trainer4.jpeg'
 import trainer5 from '../assets/trainer5.jpeg'
 import trainer6 from '../assets/trainer6.jpeg'
-var trainers = [
+
+import { computed } from 'vue'
+import { useTheme } from '../composables/useTheme.js'
+
+const { theme } = useTheme()
+
+const trainers = [
   {
     id: 1,
-    name: "Ahmed Ali",
-    specialty: "Fitness Trainer",
-    experience: 5,
-    description: "Helps you build a healthy body and improve your overall fitness.",
-    image: trainer2
+    name: 'Captain Mariam',
+    gender: 'female',
+    role: 'Yoga & Pilates Specialist',
+    image: trainer1,
+    experience: '6 Years Experience',
+    bio: 'Specialized in posture correction, flexibility, and mind-body balance sessions.'
   },
   {
     id: 2,
-    name: "Omar Hassan",
-    specialty: "Strength Coach",
-    experience: 7,
-    description: "Specialized in strength training and building muscle safely.",
-    image: trainer3
+    name: 'Captain Sara',
+    gender: 'female',
+    role: 'Fitness & Cardio Coach',
+    image: trainer5,
+    experience: '5 Years Experience',
+    bio: 'Expert in high-intensity fat burning, aerobics, and full body conditioning.'
   },
   {
     id: 3,
-    name: "Sara Mohamed",
-    specialty: "Personal Trainer",
-    experience: 4,
-    description: "Creates personalized workouts to help you reach your fitness goals.",
-    image: trainer1
+    name: 'Captain Ahmed',
+    gender: 'male',
+    role: 'CrossFit & Strength Coach',
+    image: trainer2,
+    experience: '8 Years Experience',
+    bio: 'Certified strength trainer focusing on heavy lifting and functional athletics.'
   },
   {
     id: 4,
-    name: "Youssef Ahmed",
-    specialty: "Cardio Trainer",
-    experience: 6,
-    description: "Helps improve endurance, stamina, and cardiovascular fitness.",
-    image: trainer4
+    name: 'Captain Omar',
+    gender: 'male',
+    role: 'Bodybuilding Expert',
+    image: trainer3,
+    experience: '7 Years Experience',
+    bio: 'Specialized in muscle hypertrophy, contest prep, and customized weight plans.'
   },
   {
     id: 5,
-    name: "Mariam Adel",
-    specialty: "Yoga Trainer",
-    experience: 5,
-    description: "Focuses on flexibility, balance, relaxation, and body control.",
-    image: trainer5
+    name: 'Captain Youssef',
+    gender: 'male',
+    role: 'Cardio & HIIT Trainer',
+    image: trainer4,
+    experience: '4 Years Experience',
+    bio: 'Focuses on cardiovascular endurance, stamina building, and weight loss.'
   },
   {
     id: 6,
-    name: "Mahmoud Samir",
-    specialty: "CrossFit Coach",
-    experience: 8,
-    description: "Specialized in functional training, endurance, and high-intensity workouts.",
-    image: trainer6
+    name: 'Captain Mahmoud',
+    gender: 'male',
+    role: 'Boxing & Core Conditioning',
+    image: trainer6,
+    experience: '6 Years Experience',
+    bio: 'Pro boxing trainer helping clients master agility, core strength, and self-defense.'
   }
 ]
 
-export default {
- data() {
-  return {
-    trainers,
-    selectedTrainer: null
-  }
-},
-
-methods: {
-  showTrainer(trainer) {
-    this.selectedTrainer = trainer
-  }
-}
-}
+const filteredTrainers = computed(() => {
+  return trainers.filter(trainer => trainer.gender === theme.value)
+})
 </script>
 
+<template>
+  <div class="trainers-page">
+    <div class="container">
+      
+      <div class="text-center mb-5">
+        <h1 class="page-title">Meet Our Trainers</h1>
+        <p class="page-subtitle">Hover over any trainer card to view their expertise & details</p>
+      </div>
+
+      <div class="trainers-grid">
+        <div v-for="trainer in filteredTrainers" :key="trainer.id" class="flip-card">
+          <div class="flip-card-inner">
+            
+            <div class="flip-card-front">
+              <img :src="trainer.image" :alt="trainer.name" class="trainer-img" />
+              <div class="front-info">
+                <h3>{{ trainer.name }}</h3>
+              </div>
+            </div>
+
+            <div class="flip-card-back">
+              <h3>{{ trainer.name }}</h3>
+              <span class="role-badge">{{ trainer.role }}</span>
+              <p class="experience">{{ trainer.experience }}</p>
+              <p class="bio">{{ trainer.bio }}</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+
 <style scoped>
-
-.trainers {
-  min-height: 100vh;
-  padding: 80px 30px;
-  background: #0D0A0E;
-  color: #F5F5F5;
+.trainers-page {
+  padding: 50px 0;
+  min-height: calc(100vh - 60px);
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
-.container {
-  max-width: 1200px;
-  margin: auto;
+.page-title {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-primary-light, #0066ff);
+  margin-bottom: 8px;
 }
 
-.heading {
-  text-align: center;
-  margin-bottom: 55px;
-}
-
-.heading span {
-  color: #FF2E9A;
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 3px;
-}
-
-.heading h1 {
-  font-size: 45px;
-  margin: 12px 0;
-  color: #FF2E9A;
-}
-
-.heading p {
-  color: #8C8C8C;
-  font-size: 16px;
+.page-subtitle {
+  color: var(--color-text-muted, #9ca3af);
+  font-size: 0.95rem;
 }
 
 .trainers-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
   gap: 30px;
-  align-items: stretch;
+  justify-content: center;
 }
 
-.trainer-card {
-  background: #0A0E17;
-  border: 1px solid #3A1030;
-  border-radius: 18px;
-  overflow: hidden;
-  transition: 0.3s;
-}
-
-.trainer-card:hover {
-  transform: translateY(-10px);
-  border-color: #FF2E9A;
-  box-shadow: 0 10px 30px rgba(255, 46, 154, 0.2);
-}
-
-.trainer-image {
+.flip-card {
+  background-color: transparent;
   width: 100%;
-  height: 300px;
-  overflow: hidden;
-  position: relative;
+  height: 340px;
+  perspective: 1000px;
 }
 
-.trainer-image img {
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.flip-card-front {
+  background-color: var(--color-surface, #111827);
+}
+
+.trainer-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: 0.4s;
 }
 
-.trainer-image:hover img {
-  transform: scale(1.08);
+.front-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 15px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
 }
 
-.trainer-info {
-  padding: 25px;
-  text-align: center;
+.front-info h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
 }
 
-.trainer-info h2 {
-  margin: 0 0 8px;
-  font-size: 24px;
+.flip-card-back {
+  background: var(--color-surface, #111827);
+  color: var(--color-text);
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px 20px;
 }
 
-.trainer-info h3 {
-  margin: 0 0 12px;
-  color: #FF2E9A;
-  font-size: 16px;
+.flip-card-back h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-primary-light);
+  margin-bottom: 8px;
 }
 
-.trainer-info p {
-  color: #8C8C8C;
-  margin-bottom: 20px;
+.role-badge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
 }
 
-.trainer-info button {
-  padding: 11px 25px;
-  border: none;
-  border-radius: 25px;
-  background: #FF2E9A;
-  color: #F5F5F5;
-  cursor: pointer;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.trainer-info button:hover {
-  background: #FF6FC4;
-}
-.description {
-  color: #8C8C8C;
-  font-size: 14px;
-  line-height: 1.6;
-  min-height: 45px;
-}
-.profile {
-  margin-top: 40px;
-  padding: 30px;
-  background: #0A0E17;
-  border: 1px solid #FF2E9A;
-  border-radius: 18px;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(255, 46, 154, 0.15);
-  animation: profileIn 0.4s ease;
-}
-.profile h2 {
-  color: #F5F5F5;
+.experience {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary-light);
   margin-bottom: 10px;
 }
 
-.profile h3 {
-  color: #FF2E9A;
-  margin-bottom: 15px;
+.bio {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--color-text-muted, #9ca3af);
+  margin: 0;
 }
-
-.profile p {
-  color: #8C8C8C;
-  margin: 8px 0;
-}
-
-.profile img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #FF2E9A;
-  margin-bottom: 20px;
-}
-
-.profile button {
-  margin-top: 20px;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 8px;
-  background: #FF2E9A;
-  color: #F5F5F5;
-  cursor: pointer;
-}
-@keyframes profileIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-@media (max-width: 900px) {
-
-  .trainers-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-}
-
-@media (max-width: 600px) {
-
-  .trainers {
-    padding: 60px 20px;
-  }
-
-  .heading h1 {
-    font-size: 34px;
-  }
-
-  .trainers-grid {
-    grid-template-columns: 1fr;
-  }
-
-}
-
 </style>

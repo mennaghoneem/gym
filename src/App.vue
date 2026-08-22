@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import Navbar from './components/Navbar.vue'
 import BMIModal from './components/BMIModel.vue'
 
 const showBMI = ref(false)
@@ -11,10 +12,17 @@ function openBMI() {
 function closeBMI() {
   showBMI.value = false
 }
+
+onMounted(() => {
+  if (!document.documentElement.getAttribute('data-theme')) {
+    document.documentElement.setAttribute('data-theme', 'female') 
+  }
+})
 </script>
 
 <template>
   <div id="app">
+    <Navbar @open-bmi="openBMI" />
     <RouterView @open-bmi="openBMI" />
     <BMIModal
       v-if="showBMI"
@@ -25,11 +33,9 @@ function closeBMI() {
 
 <style>
 html, body, #app {
-  background-color: #0d1b2a !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  min-height: 100vh !important;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
 }
 </style>

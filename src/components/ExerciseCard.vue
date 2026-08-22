@@ -1,27 +1,21 @@
 <template>
-  <div class="custom-card" @click="$emit('select', exercise)">
-
-    <div class="card-img-wrapper">
-      <img
-        :src="imageSrc"
-        :alt="exercise.name"
-        loading="lazy"
-        @error="handleImageError"
+  <div class="exercise-card" @click="$emit('select', exercise)">
+    <div class="image-wrapper">
+      <img 
+        :src="exercise.gifUrl || exercise.image || 'https://via.placeholder.com/300x200?text=No+Image'" 
+        :alt="exercise.name" 
+        class="card-image"
       />
     </div>
-    <div class="card-info">
+    <div class="card-content">
       <h3 class="card-title">{{ exercise.name }}</h3>
-      <button class="muscle-btn-tag">
-        {{ exercise.target || 'General' }}
-      </button>
+      <span class="target-badge">{{ exercise.target || exercise.category }}</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-
-const props = defineProps({
+defineProps({
   exercise: {
     type: Object,
     required: true
@@ -29,89 +23,75 @@ const props = defineProps({
 })
 
 defineEmits(['select'])
-
-const placeholderImage =
-  "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='220' viewBox='0 0 320 220'><rect width='320' height='220' fill='%230b1120'/><text x='160' y='110' font-family='Arial' font-size='14' fill='%2394a3b8' text-anchor='middle'>No Image Available</text></svg>"
-
-const imageFailed = ref(false)
-
-const imageSrc = computed(() => {
-  if (imageFailed.value || !props.exercise.gifUrl) {
-    return placeholderImage
-  }
-  return props.exercise.gifUrl
-})
-
-function handleImageError() {
-  imageFailed.value = true
-}
 </script>
 
 <style scoped>
-.custom-card {
-  background-color: #ffffff !important;
+.exercise-card {
+  background-color: var(--color-surface, #111827);
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
   border-radius: 16px;
-  padding: 20px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 100%;
-  box-sizing: border-box;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
-.custom-card:hover {
+.exercise-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.35);
+  border-color: var(--color-primary-light);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
 }
 
-.card-img-wrapper {
+.image-wrapper {
   width: 100%;
   height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 14px;
+  border-radius: 12px;
   overflow: hidden;
-  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
-.card-img-wrapper img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-}
-
-.card-info {
+.card-image {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.exercise-card:hover .card-image {
+  transform: scale(1.04);
+}
+
+.card-content {
+  margin-top: 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .card-title {
-  color: #0b1120 !important;
   font-size: 1.1rem;
-  font-weight: 800;
+  font-weight: 700;
+  color: var(--color-text, #ffffff);
   margin: 0;
-  text-align: center;
   text-transform: capitalize;
-  line-height: 1.3;
 }
 
-.muscle-btn-tag {
-  background-color: #0d1b2a !important;
-  color: #ffffff !important;
-  border: none;
-  padding: 8px 22px;
+.target-badge {
+  display: inline-block;
+  background-color: var(--color-primary-light, #0066ff);
+  color: #ffffff;
+  padding: 6px 18px;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: capitalize;
-  cursor: pointer;
   letter-spacing: 0.5px;
+  transition: background-color 0.3s ease;
 }
 </style>

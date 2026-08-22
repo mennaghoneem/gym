@@ -1,168 +1,176 @@
 <template>
-  <section class="about">
+  <div class="about-page">
     <div class="container">
-
-      <div class="heading">
-        <span>ABOUT US</span>
-        <h1>More Than Just A Gym</h1>
-        <p>
-          We help you become stronger, healthier, and more confident.
+      <!-- Hero Header -->
+      <header class="about-header">
+        <h1 class="title">WE ARE <span class="highlight">GYM FITNESS</span></h1>
+        <p class="subtitle">
+          Empowering your journey to a healthier, stronger, and more confident version of yourself.
         </p>
-      </div>
+      </header>
 
-      <div class="about-content">
+      <!-- Stats Grid -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-number">5+</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">1200+</span>
+          <span class="stat-label">Active Members</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">25+</span>
+          <span class="stat-label">Expert Coaches</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">Dedication</span>
+        </div>
+      </section>
 
-        <div class="about-text">
-          <h2>Train Hard. Stay Strong.</h2>
-
+      <!-- Mission & Vision -->
+      <section class="values-section">
+        <div class="value-card">
+          <h3>Our Mission</h3>
           <p>
-            Our gym is a place where fitness meets motivation.
-            We provide professional trainers, modern equipment,
-            and a friendly environment to help you achieve your goals.
-          </p>
-
-          <p>
-            Whether you want to build muscle, lose weight, improve
-            your fitness, or simply live a healthier lifestyle,
-            we are here to support you every step of the way.
+            To provide top-tier fitness facilities, personalized guidance, and a supportive community for everyone to reach their personal goals.
           </p>
         </div>
 
-        <div class="features">
-
-          <div class="feature">
-            <h3>Professional Trainers</h3>
-            <p>Experienced trainers ready to guide and motivate you.</p>
-          </div>
-
-          <div class="feature">
-            <h3>Modern Equipment</h3>
-            <p>Quality equipment for effective and safe workouts.</p>
-          </div>
-
-          <div class="feature">
-            <h3>Healthy Lifestyle</h3>
-            <p>Helping you build strong and healthy habits.</p>
-          </div>
-
+        <div class="value-card">
+          
+          <h3>Our Vision</h3>
+          <p>
+            To transform lives through movement, consistency, and expert coaching, making wellness an enjoyable lifestyle.
+          </p>
         </div>
-
-      </div>
-
+      </section>
     </div>
-  </section>
+  </div>
 </template>
 
 <style scoped>
-
-.about {
+.about-page {
   min-height: 100vh;
-  padding: 80px 30px;
-  background: #0D0A0E;
-  color: #F5F5F5;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  padding: 60px 20px;
+  box-sizing: border-box;
 }
 
 .container {
   max-width: 1200px;
-  margin: auto;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
 }
 
-.heading {
+.about-header {
   text-align: center;
-  margin-bottom: 55px;
+  max-width: 750px;
+  margin: 0 auto;
 }
 
-.heading span {
-  color: #FF2E9A;
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 3px;
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  color: var(--color-text);
 }
 
-.heading h1 {
-  font-size: 45px;
-  margin: 12px 0;
-  color: #FF2E9A;
+.highlight {
+  color: var(--color-primary-light, var(--color-primary));
 }
 
-.heading p {
-  color: #8C8C8C;
-  font-size: 16px;
-}
-
-.about-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: center;
-}
-
-.about-text {
-  background: #0A0E17;
-  padding: 35px;
-  border: 1px solid #3A1030;
-  border-radius: 18px;
-}
-
-.about-text h2 {
-  color: #F5F5F5;
-  font-size: 28px;
-  margin-bottom: 20px;
-}
-
-.about-text p {
-  color: #8C8C8C;
-  line-height: 1.8;
-  margin-bottom: 15px;
-}
-
-.features {
-  display: grid;
-  gap: 20px;
-}
-
-.feature {
-  background: #0A0E17;
-  padding: 25px;
-  border: 1px solid #3A1030;
-  border-radius: 18px;
-  transition: 0.3s;
-}
-
-.feature:hover {
-  transform: translateY(-5px);
-  border-color: #FF2E9A;
-  box-shadow: 0 10px 30px rgba(255, 46, 154, 0.15);
-}
-
-.feature h3 {
-  color: #FF2E9A;
-  margin-bottom: 10px;
-}
-
-.feature p {
-  color: #8C8C8C;
+.subtitle {
+  font-size: 1.15rem;
+  color: var(--color-text-muted);
   line-height: 1.6;
 }
 
-@media (max-width: 800px) {
+/* Stats Styling */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
 
-  .about-content {
+.stat-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-primary-light, var(--color-primary));
+}
+
+.stat-number {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--color-primary-light, var(--color-primary));
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+/* Values Styling */
+.values-section {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.value-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  padding: 36px;
+  text-align: left;
+  transition: transform 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-4px);
+}
+
+
+.value-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--color-text);
+}
+
+.value-card p {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsiveness */
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .values-section {
     grid-template-columns: 1fr;
   }
-
-}
-
-@media (max-width: 600px) {
-
-  .about {
-    padding: 60px 20px;
+  .title {
+    font-size: 2.2rem;
   }
-
-  .heading h1 {
-    font-size: 34px;
-  }
-
 }
-
 </style>
