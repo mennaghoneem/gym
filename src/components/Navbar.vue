@@ -28,7 +28,7 @@ onMounted(() => {
       <!-- Left side Links (تغيير Plans لـ Trainers) -->
       <nav class="nav-side nav-left d-none d-lg-flex">
         <a href="#home" class="site-link site-link--active">Home</a>
-        <a href="#trainers" class="site-link">Trainers</a>
+        <RouterLink to="/trainers" class="site-link">Trainers</RouterLink>
         <a href="#schedule" class="site-link">Schedule</a>
       </nav>
 
@@ -44,8 +44,8 @@ onMounted(() => {
 
       <!-- Right side Links + Tools (Desktop) -->
       <div class="nav-side nav-right d-none d-lg-flex align-items-center justify-content-end gap-3">
-        <a href="#about" class="site-link">About</a>
-        <a href="#contact" class="site-link">Contact</a>
+        <RouterLink to="/about" class="site-link">About</RouterLink>
+        <RouterLink to="/contact" class="site-link">Contact</RouterLink>
 
         <!-- BMI Calc -->
         <button
@@ -167,10 +167,11 @@ onMounted(() => {
     <div v-if="isMobileMenuOpen" class="mobile-menu d-lg-none py-3">
       <div class="container d-flex flex-column gap-2">
         <a href="#home" class="site-link" @click="isMobileMenuOpen = false">Home</a>
-        <a href="#trainers" class="site-link" @click="isMobileMenuOpen = false">Trainers</a>
+        <RouterLink to="/trainers" class="site-link" @click="isMobileMenuOpen = false">Trainers</RouterLink>
+
         <a href="#schedule" class="site-link" @click="isMobileMenuOpen = false">Schedule</a>
-        <a href="#about" class="site-link" @click="isMobileMenuOpen = false">About</a>
-        <a href="#contact" class="site-link" @click="isMobileMenuOpen = false">Contact</a>
+        <RouterLink to="/about" class="site-link" @click="isMobileMenuOpen = false">About</RouterLink>
+        <RouterLink to="/contact" class="site-link" @click="isMobileMenuOpen = false">Contact</RouterLink>
       </div>
     </div>
   </header>
