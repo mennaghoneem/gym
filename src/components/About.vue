@@ -1,5 +1,5 @@
 <template>
-  <div class="about-page">
+  <div class="inner-page about-page">
     <div class="container">
       <!-- Hero Header -->
       <header class="about-header">
@@ -12,19 +12,19 @@
       <!-- Stats Grid -->
       <section class="stats-grid">
         <div class="stat-card">
-          <span class="stat-number">5+</span>
+          <span class="stat-number" style="color: var(--color-accent-2);">5+</span>
           <span class="stat-label">Years Experience</span>
         </div>
-        <div class="stat-card">
+        <div class="stat-card" style="color: var(--color-accent-1);">
           <span class="stat-number">1200+</span>
           <span class="stat-label">Active Members</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number">25+</span>
+          <span class="stat-number" style="color: var(--color-accent-3);">25+</span>
           <span class="stat-label">Expert Coaches</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number">100%</span>
+          <span class="stat-number" >100%</span>
           <span class="stat-label">Dedication</span>
         </div>
       </section>
@@ -118,7 +118,6 @@
 .stat-number {
   font-size: 2.4rem;
   font-weight: 800;
-  color: var(--color-primary-light, var(--color-primary));
 }
 
 .stat-label {

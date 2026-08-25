@@ -1,46 +1,30 @@
 <template>
-  <div class="exercises-page">
-    <div class="top-nav-bar">
-      <button class="menu-btn" title="Open Suggestions" @click="toggleSidebar">
-        ☰
-      </button>
-    </div>
-
-    <div class="sidebar" :class="{ 'sidebar-open': isSidebarOpen }">
-      <div class="sidebar-header">
-        <h3>Recommended</h3>
-        <button class="close-btn" @click="toggleSidebar">✕</button>
-      </div>
-
-      <div class="sidebar-links">
-        <button
-          class="sidebar-item"
-          :class="{ 'selected-item': selectedMuscle === '' }"
-          @click="selectMuscle('')"
-        >
-          All Exercises
-        </button>
-        <button
-          v-for="m in muscleList"
-          :key="m"
-          class="sidebar-item"
-          :class="{ 'selected-item': selectedMuscle === m }"
-          @click="selectMuscle(m)"
-        >
-          {{ m }}
-        </button>
-      </div>
-    </div>
-
-    <div
-      v-if="isSidebarOpen"
-      class="sidebar-overlay"
-      @click="toggleSidebar"
-    ></div>
-
+  <div class="inner-page exercises-page">
     <div class="main-content">
-      <h1 class="page-title">EXPLORE EXERCISES</h1>
+      <h1 class="title page-title" style=" color:var(--color-primary-light) ">EXPLORE EXERCISES</h1>
 
+      <!-- Filter & Search Bar -->
+      <div class="filter-bar">
+        <div class="search-box">
+          <input 
+            type="text" 
+            v-model="searchQuery" 
+            placeholder="Search exercise..." 
+          />
+        </div>
+
+        <div class="select-box">
+          <label>Exercise Category</label>
+          <select v-model="selectedCategory">
+            <option value="">All Categories</option>
+            <option v-for="cat in categoryList" :key="cat" :value="cat">
+              {{ cat }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- State Displays -->
       <div v-if="loading" class="loading-state">
         Loading exercises...
       </div>
@@ -49,6 +33,7 @@
         {{ errorMessage }}
       </div>
 
+      <!-- Results Grid -->
       <div v-else class="results-container">
         <div v-if="filteredExercises.length" class="exercises-grid">
           <ExerciseCard
@@ -60,11 +45,12 @@
         </div>
 
         <div v-else class="no-results">
-          No exercises found for this category.
+          No exercises found matching your search.
         </div>
       </div>
     </div>
 
+    <!-- Modal -->
     <ExerciseModal
       v-if="selectedExercise"
       :exercise="selectedExercise"
@@ -79,21 +65,12 @@ import ExerciseCard from '../components/ExerciseCard.vue'
 import ExerciseModal from '../components/ExerciseModal.vue'
 
 const allExercises = ref([])
-const muscleList = ref([])
-const selectedMuscle = ref('')
+const categoryList = ref([])
+const selectedCategory = ref('')
+const searchQuery = ref('')
 const loading = ref(true)
 const errorMessage = ref('')
 const selectedExercise = ref(null)
-const isSidebarOpen = ref(false)
-
-function toggleSidebar() {
-  isSidebarOpen.value = !isSidebarOpen.value
-}
-
-function selectMuscle(muscleName) {
-  selectedMuscle.value = muscleName
-  isSidebarOpen.value = false
-}
 
 async function fetchExercisesData() {
   loading.value = true
@@ -106,10 +83,6 @@ async function fetchExercisesData() {
     const data = await res.json()
 
     allExercises.value = data.map(item => {
-      const muscle = (item.primaryMuscles && item.primaryMuscles.length > 0)
-        ? item.primaryMuscles[0]
-        : (item.category || 'General')
-
       const img = (item.images && item.images.length > 0)
         ? `https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/${item.images[0]}`
         : ''
@@ -117,8 +90,8 @@ async function fetchExercisesData() {
       return {
         id: item.id,
         name: item.name,
-        target: muscle,
-        category: item.category || muscle,
+        target: (item.primaryMuscles && item.primaryMuscles.length > 0) ? item.primaryMuscles[0] : 'General',
+        category: item.category || 'Other',
         equipment: item.equipment || 'None',
         instructions: item.instructions || [],
         gifUrl: img
@@ -126,7 +99,7 @@ async function fetchExercisesData() {
     })
 
     const categories = allExercises.value.map(item => item.category).filter(Boolean)
-    muscleList.value = [...new Set(categories)].sort()
+    categoryList.value = [...new Set(categories)].sort()
 
   } catch (err) {
     console.error("API Error:", err)
@@ -137,11 +110,25 @@ async function fetchExercisesData() {
 }
 
 const filteredExercises = computed(() => {
-  if (!selectedMuscle.value) return allExercises.value
-  return allExercises.value.filter(item => item.category === selectedMuscle.value)
+  return allExercises.value.filter(item => {
+    const matchesCategory = selectedCategory.value === '' || 
+      item.category.toLowerCase() === selectedCategory.value.toLowerCase()
+
+    const matchesSearch = item.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+
+    return matchesCategory && matchesSearch
+  })
 })
 
 onMounted(() => {
+  const savedUserJSON = localStorage.getItem('gym_registered_user')
+  if (savedUserJSON) {
+    const savedUser = JSON.parse(savedUserJSON)
+    if (savedUser.exerciseCategory) {
+      selectedCategory.value = savedUser.exerciseCategory.toLowerCase()
+    }
+  }
+
   fetchExercisesData()
 })
 
@@ -157,124 +144,10 @@ function closeExerciseModal() {
 <style scoped>
 .exercises-page {
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   background-color: var(--color-bg);
   color: var(--color-text);
-  position: relative;
   box-sizing: border-box;
-}
-
-.top-nav-bar {
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  overflow-x: auto;
-  width: 100%;
-}
-
-.menu-btn {
-  background: transparent;
-  color: var(--color-primary-light);
-  border: none;
-  font-size: 1.8rem;
-  padding: 12px 18px;
-  cursor: pointer;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -300px;
-  width: 280px;
-  height: 100vh;
-  background-color: var(--color-surface);
-  border-right: 1px solid var(--color-border);
-  box-shadow: 5px 0 25px rgba(0, 0, 0, 0.6);
-  z-index: 1000;
-  transition: left 0.3s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-open {
-  left: 0;
-}
-
-.sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: rgba(255,255,255, .03);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.sidebar-header h3 {
-  margin: 0;
-  color: var(--color-text);
-  font-size: 0.95rem;
-  font-style: italic;
-}
-
-.sidebar-item {
-  background: transparent;
-  color: var(--color-text-muted);
-  border: none;
-  text-align: left;
-  padding: 8px 14px;
-  font-size: 0.75rem;
-  font-weight: 400;
-  font-style: italic;
-  cursor: pointer;
-  text-transform: capitalize;
-}
-.close-btn {
-  background: transparent;
-  border: none;
-  color: var(--color-text-muted);
-  font-size: 1.4rem;
-  cursor: pointer;
-}
-
-.sidebar-links {
-  display: flex;
-  flex-direction: column;
-  padding: 12px 0;
-  overflow-y: auto;
-}
-
-.sidebar-item {
-  background: transparent;
-  color: var(--color-text-muted);
-  border: none;
-  text-align: left;
-  padding: 14px 24px;
-  font-size: 1.05rem;
-  font-weight: 600;
-  font-style: italic;
-  cursor: pointer;
-  text-transform: capitalize;
-}
-
-.sidebar-item:hover {
-  background-color: var(--color-border);
-  color: var(--color-primary-light);
-}
-
-.selected-item {
-  background-color: rgba(255,255,255,0.08);
-  color: var(--color-primary-light);
-  border-left: 4px solid var(--color-primary-light);
-}
-
-.sidebar-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 999;
 }
 
 .main-content {
@@ -288,8 +161,72 @@ function closeExerciseModal() {
   font-weight: 800;
   color: var(--color-primary-light) !important;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   letter-spacing: 0.5px;
+}
+
+/* Clean Filter Bar (No Container Box) */
+.filter-bar {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  align-items: flex-end;
+  justify-content: space-between;
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+.search-box {
+  flex: 1;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.search-box input:focus,
+.select-box select:focus {
+  border-color: var(--color-primary-light, var(--color-primary));
+}
+
+.select-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+}
+
+.select-box label {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.select-box select {
+  padding: 12px 16px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.select-box select option {
+  background-color: var(--color-surface);
+  color: var(--color-text);
 }
 
 .loading-state,
@@ -307,7 +244,12 @@ function closeExerciseModal() {
   gap: 24px;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 850px) {
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .exercises-grid {
     grid-template-columns: repeat(2, 1fr);
   }

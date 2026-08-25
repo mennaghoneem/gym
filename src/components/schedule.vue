@@ -80,11 +80,11 @@ const activeSchedule = computed(() => {
 </script>
 
 <template>
-  <div class="schedule-page">
+  <div class="inner-page schedule-page">
     <div class="container">
       
       <div class="text-center mb-4">
-        <h1 class="page-title">Weekly Schedule</h1>
+        <h1 class="page-title title">Weekly Schedule</h1>
         
         <p v-if="theme === 'female'" class="theme-subtitle ">
           Morning Shift (Ladies Only)
@@ -129,10 +129,10 @@ const activeSchedule = computed(() => {
 }
 
 .page-title {
-  font-weight: 800;
+  font-weight: 800 !important;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: var(--color-primary-light, #0066ff);
+  color: var(--color-primary-light, #0066ff) !important;
   margin-bottom: 8px;
 }
 

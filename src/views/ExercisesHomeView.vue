@@ -1,7 +1,7 @@
 <template>
-  <div class="home-page">
+  <div class="inner-page home-page">
     <div class="hero-section">
-      <h1 class="hero-title">DISCOVER YOUR WORKOUT</h1>
+      <h1 class="title hero-title"> <span style="color:var(--color-primary-light)">DISCOVER YOUR</span> WORKOUT</h1>
 
       <div class="search-container">
         <input
@@ -12,7 +12,7 @@
         />
       </div>
 
-      <div v-if="loading" class="loading-state">Loading exercises...</div>
+      <div v-if="loading" class="subtitle loading-state">Loading exercises...</div>
       <div v-else-if="errorMessage" class="error-state">{{ errorMessage }}</div>
 
       <div v-else class="cards-container">

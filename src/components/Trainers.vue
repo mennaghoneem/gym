@@ -74,12 +74,12 @@ const filteredTrainers = computed(() => {
 </script>
 
 <template>
-  <div class="trainers-page">
+  <div class="inner-page trainers-page">
     <div class="container">
       
       <div class="text-center mb-5">
-        <h1 class="page-title">Meet Our Trainers</h1>
-        <p class="page-subtitle">Hover over any trainer card to view their expertise & details</p>
+        <h1 class="title page-title">Meet Our <span style="color:var(--color-primary-light)"> Trainers</span></h1>
+        <p class="subtitle">Hover over any trainer card to view their expertise & details</p>
       </div>
 
       <div class="trainers-grid">
@@ -117,7 +117,7 @@ const filteredTrainers = computed(() => {
 }
 
 .page-title {
-  font-weight: 800;
+  font-weight: 800 !important;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--color-primary-light, #0066ff);

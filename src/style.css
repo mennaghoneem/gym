@@ -35,42 +35,53 @@ button {
 
 
 [data-theme='male'] {
-  --color-bg: #070a10;
-  --color-surface: #0e1422;
-  --color-surface-2: #141d33;
-  --color-navbar-bg: rgba(7, 10, 16, 0.88);
-  --color-primary: #1e5fd9;
-  --color-primary-light: #0066ff;
-  --color-text: #f5f5f5;
-  --color-text-muted: #8c96a6;
-  --color-border: rgba(0, 102, 255, 0.25);
-  --gradient-overlay: linear-gradient(90deg, #070a10 0%, rgba(7, 10, 16, 0.6) 50%, rgba(7, 10, 16, 0.1) 100%);
+  --color-bg: #0a0f1bc0;
+  --color-surface: #0f172a;
+  --color-surface-2: #1e293b;
+  --color-navbar-bg: rgba(8, 13, 22, 0.92);
 
-  --bs-primary: #0066ff;
-  --bs-primary-rgb: 0, 102, 255;
-  --bs-body-bg: #070a10;
-  --bs-body-color: #f5f5f5;
-  --bs-border-color: rgba(0, 102, 255, 0.25);
+  --color-primary: #2563eb;
+  --color-primary-light: #3b82f6;
+
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-border: rgba(37, 99, 235, 0.22);
+
+  --color-accent-1: #ff9eaa;
+  --color-accent-2: #d8b4fe;
+  --color-accent-3: #00f0ff; 
+
+  --bs-primary: #2563eb;
+  --bs-primary-rgb: 37, 99, 235;
+  --bs-body-bg: #080d16;
+  --bs-body-color: #f8fafc;
+  --bs-border-color: rgba(37, 99, 235, 0.25);
 }
 
 [data-theme='female'] {
-  --color-bg: #0a0709;
-  --color-surface: #140d12;
-  --color-surface-2: #211016;
-  --color-navbar-bg: rgba(10, 7, 9, 0.88);
-  --color-primary: #ff2d75;
-  --color-primary-light: #ff2d75;
-  --color-text: #f5f5f5;
-  --color-text-muted: #b8a3ad;
-  --color-border: rgba(255, 45, 117, 0.3);
-  --gradient-overlay: linear-gradient(90deg, #0a0709 0%, rgba(58, 16, 48, 0.6) 50%, rgba(58, 16, 48, 0.1) 100%);
+  --color-bg: #1d1118d8;
+  --color-surface: #140d11;
+  --color-surface-2: #1e1219;
+  --color-navbar-bg: rgba(11, 7, 9, 0.88);
+
+  --color-primary: #ff2d75;        
+  --color-primary-light: #ff5c93;
+
+  --color-text: #f5eff2;
+  --color-text-muted: #9e8a94;
+  --color-border: rgba(255, 45, 117, 0.18);
+
+  --color-accent-1: #00f0ff; 
+  --color-accent-2: #ff9eaa; 
+  --color-accent-3: #d8b4fe;
 
   --bs-primary: #ff2d75;
   --bs-primary-rgb: 255, 45, 117;
-  --bs-body-bg: #0a0709;
-  --bs-body-color: #f5f5f5;
-  --bs-border-color: rgba(255, 45, 117, 0.3);
+  --bs-body-bg: #0b0709;
+  --bs-body-color: #f5eff2;
+  --bs-border-color: rgba(255, 45, 117, 0.2);
 }
+
 
 .btn-primary {
   --bs-btn-color: #ffffff;
@@ -97,4 +108,83 @@ button {
   max-width: 1300px;
   margin: 0 auto;
   padding: 0 24px;
+}
+
+/* =========================================
+   INNER PAGES BACKGROUND
+   ========================================= */
+
+.inner-page {
+  position: relative;
+  min-height: 100vh;
+  color: var(--color-text);
+
+  isolation: isolate;
+}
+
+.inner-page::before {
+  content: "";
+  position: absolute;
+  inset: -15px;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  filter: blur(5px);
+  transform: scale(1.03);
+
+  z-index: -2;
+  pointer-events: none;
+}
+
+
+[data-theme='male'] .inner-page::before {
+  background-image: url('/male-page-bg.png');
+}
+
+[data-theme='female'] .inner-page::before {
+  background-image: url('/female-page-bg.png');
+}
+
+
+
+.inner-page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: rgba(5, 10, 25, 0.38);
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+[data-theme='female'] .inner-page::after {
+  background: rgba(45, 8, 30, 0.30);
+}
+
+
+.inner-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.inner-page .title {
+  color: #ffffff;
+
+  text-shadow:
+    0 0 2px #ffffff,
+    0 0 10px var(--color-primary-light),
+    0 0 35px var(--color-primary-light),
+    0 3px 25px rgba(0, 0, 0, 0.8);
+
+  animation: titleGlow 2.5s ease-in-out infinite;
+}
+
+
+.inner-page .subtitle {
+  color: #eeeeee;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
 }

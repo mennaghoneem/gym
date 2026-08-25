@@ -18,7 +18,7 @@
         <div class="features-items">
           
           <div class="feature-card">
-            <div class="feature-icon">
+            <div class="feature-icon1">
               <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m6.5 6.5 11 11"/>
                 <path d="m21 21-1 1a2 2 0 0 1-2.8 0l-2.5-2.5a2 2 0 0 1 0-2.8l1-1"/>
@@ -34,7 +34,7 @@
           </div>
 
           <div class="feature-card">
-            <div class="feature-icon">
+            <div class="feature-icon2">
               <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
                 <circle cx="12" cy="7" r="4"/>
@@ -45,7 +45,7 @@
           </div>
 
           <div class="feature-card">
-            <div class="feature-icon">
+            <div class="feature-icon3">
               <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
               </svg>
@@ -55,7 +55,7 @@
           </div>
 
           <div class="feature-card">
-            <div class="feature-icon">
+            <div class="feature-icon4">
               <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/>
                 <polyline points="12 6 12 12 16 14"/>
@@ -152,7 +152,7 @@
   box-shadow: 0 10px 30px -10px rgba(var(--bs-primary-rgb), 0.3);
 }
 
-.feature-icon {
+.feature-icon1 {
   color: var(--color-primary-light, #3b7dff);
   margin-bottom: 16px;
   display: flex;
@@ -160,7 +160,46 @@
   transition: transform 0.3s ease, filter 0.3s ease;
 }
 
-.feature-card:hover .feature-icon {
+.feature-card:hover .feature-icon1 {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 12px rgba(var(--bs-primary-rgb), 0.8));
+}
+
+.feature-icon2 {
+  color: var(--color-accent-2, #3b7dff);
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.feature-card:hover .feature-icon2 {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 12px rgba(var(--bs-primary-rgb), 0.8));
+}
+
+.feature-icon3 {
+  color: #f5312a;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.feature-card:hover .feature-icon3 {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 12px rgba(var(--bs-primary-rgb), 0.8));
+}
+
+.feature-icon4 {
+  color: var(--color-accent-1, #3b7dff);
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.feature-card:hover .feature-icon4 {
   transform: scale(1.15);
   filter: drop-shadow(0 0 12px rgba(var(--bs-primary-rgb), 0.8));
 }

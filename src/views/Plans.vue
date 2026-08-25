@@ -1,54 +1,32 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import PlanCard from '../components/PlanCard.vue'
 import { plans } from '../data/plans'
 
+const router = useRouter()
 const yearly = ref(false)
-const selectedPlan = ref(null)
 
 function choosePlan(plan) {
-  selectedPlan.value = plan
+  localStorage.setItem('selected_plan', JSON.stringify(plan))
+  router.push('/register')
 }
 </script>
 
 <template>
-
-  <section class="plans-page">
-
+  <section class="inner-page plans-page">
     <div class="container">
+      <h1 class="title"><b><span style="color: var(--color-primary-light);">CHOOSE</span> YOUR PLAN</b></h1>
+      <p class="subtitle">Choose the membership that fits your goals.</p>
 
-      <h1>CHOOSE YOUR PLAN</h1>
-
-      <p>
-        Choose the membership that fits your goals.
-      </p>
-
-
-      <!-- Monthly / Yearly -->
-
+      <!-- Monthly / Yearly Toggle -->
       <div class="billing-toggle">
-
-        <button
-          :class="{ active: !yearly }"
-          @click="yearly = false"
-        >
-          Monthly
-        </button>
-
-        <button
-          :class="{ active: yearly }"
-          @click="yearly = true"
-        >
-          Yearly
-        </button>
-
+        <button :class="{ active: !yearly }" @click="yearly = false">Monthly</button>
+        <button :class="{ active: yearly }" @click="yearly = true">Yearly</button>
       </div>
 
-
-      <!-- Plans -->
-
+      <!-- Plans Grid -->
       <div class="plans-grid">
-
         <PlanCard
           v-for="(plan, index) in plans"
           :key="plan.id"
@@ -57,28 +35,11 @@ function choosePlan(plan) {
           :featured="index === 1"
           @choose="choosePlan"
         />
-
       </div>
-
-
-      <!-- Selected Plan -->
-
-      <div
-        v-if="selectedPlan"
-        class="selected-plan"
-      >
-        You selected:
-
-        <strong>
-          {{ selectedPlan.name }}
-        </strong>
-      </div>
-
     </div>
-
   </section>
-
 </template>
+
 <style scoped>
 .plans-page {
   min-height: 100vh;
@@ -95,7 +56,7 @@ function choosePlan(plan) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding:0 20px ;
+  padding: 0 20px;
 }
 
 .page-title {
@@ -111,6 +72,7 @@ function choosePlan(plan) {
   font-size: 1.1rem;
   margin-bottom: 20px;
 }
+
 .billing-toggle {
   display: inline-flex;
   background: var(--color-surface);
@@ -138,19 +100,11 @@ function choosePlan(plan) {
 }
 
 .plans-grid {
-  display: flex;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   margin-top: 40px;
-  align-items: stretch;
-}
-.selected-plan {
-  margin-top: 40px;
-  padding: 12px 24px;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  color: var(--color-text);
+  width: 100%;
 }
 
 @media (max-width: 900px) {
